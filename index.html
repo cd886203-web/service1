@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>物流營運數據分析助手</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">LogiScan</span>
+      </div>
+      <nav class="site-nav">
+        <a href="#upload">上傳報表</a>
+        <a href="#about">關於</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content" id="upload">
+    <section class="hero">
+      <h1 class="hero-title">物流營運<br><em>數據分析助手</em></h1>
+      <p class="hero-sub">上傳 CSV 或 Excel 報表，AI 自動萃取核心問題、異常預警與改善建議</p>
+    </section>
+
+    <div class="app-card">
+
+      <!-- Upload Zone -->
+      <div class="upload-zone" id="dropzone">
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" />
+        <div class="upload-inner">
+          <div class="upload-glyph">↑</div>
+          <p class="upload-primary">拖放檔案至此，或點擊選擇</p>
+          <p class="upload-secondary">支援 CSV、XLSX、XLS 格式</p>
+        </div>
+      </div>
+
+      <!-- File Info -->
+      <div class="file-info-bar" id="fileInfo" style="display:none">
+        <span class="fi-icon" id="fileIcon">📄</span>
+        <div class="fi-meta">
+          <div class="fi-name" id="fileName"></div>
+          <div class="fi-size" id="fileSize"></div>
+        </div>
+        <button class="fi-remove" id="removeFile" title="移除檔案">✕</button>
+      </div>
+
+      <!-- Config -->
+      <div class="config-block">
+        <div class="config-title">分析項目</div>
+        <div class="checkbox-grid">
+          <label class="cb-item"><input type="checkbox" checked id="chk1" /><span>資料概覽</span></label>
+          <label class="cb-item"><input type="checkbox" checked id="chk2" /><span>核心問題 Top 3</span></label>
+          <label class="cb-item"><input type="checkbox" checked id="chk3" /><span>類別佔比分析</span></label>
+          <label class="cb-item"><input type="checkbox" checked id="chk4" /><span>時效與品質評估</span></label>
+          <label class="cb-item"><input type="checkbox" checked id="chk5" /><span>異常預警偵測</span></label>
+          <label class="cb-item"><input type="checkbox" checked id="chk6" /><span>改善建議</span></label>
+        </div>
+      </div>
+
+      <!-- API Key -->
+      <div class="config-block">
+        <div class="config-title">Anthropic API Key</div>
+        <input type="password" id="apiKey" class="api-input" placeholder="sk-ant-..." />
+        <p class="api-note">API Key 僅在本機瀏覽器中使用，不會上傳至任何伺服器。</p>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <button class="btn-analyze" id="analyzeBtn" disabled>選擇檔案後開始分析</button>
+
+      <!-- Loading -->
+      <div class="loading-block" id="loadingDiv" style="display:none">
+        <div class="loading-spinner"></div>
+        <p class="loading-text" id="loadingText">正在解析資料結構...</p>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-block" id="resultsDiv" style="display:none">
+        <div class="result-tabs" id="resultTabs">
+          <button class="tab-btn active" data-tab="summary">數據總結</button>
+          <button class="tab-btn" data-tab="top3">核心問題</button>
+          <button class="tab-btn" data-tab="warning">異常警告</button>
+          <button class="tab-btn" data-tab="suggestion">改善建議</button>
+          <button class="tab-btn" data-tab="stats">詳細統計</button>
+        </div>
+        <div class="tab-content active" id="tab-summary"></div>
+        <div class="tab-content" id="tab-top3"></div>
+        <div class="tab-content" id="tab-warning"></div>
+        <div class="tab-content" id="tab-suggestion"></div>
+        <div class="tab-content" id="tab-stats"></div>
+
+        <div class="followup-block">
+          <div class="followup-title">深入追問</div>
+          <div class="quick-asks" id="quickAsks"></div>
+        </div>
+      </div>
+
+    </div><!-- .app-card -->
+  </main>
+
+  <footer class="site-footer" id="about">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">⬡</span> LogiScan
+      </div>
+      <p class="footer-desc">由 Claude AI 驅動的物流報表分析工具。分析維度涵蓋店鋪區域、類別體系、執行效率三大面向。</p>
+      <p class="footer-copy">© 2025 LogiScan · Powered by Anthropic Claude</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
